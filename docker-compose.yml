@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: alumni-postgres
+    environment:
+      POSTGRES_DB: alumni_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d alumni_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: alumni-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/alumni_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      PHANTOMBUSTER_MOCK_ENABLED: ${PHANTOMBUSTER_MOCK_ENABLED:-true}
+      PHANTOMBUSTER_API_KEY: ${PHANTOMBUSTER_API_KEY:-}
+      PHANTOMBUSTER_AGENT_ID: ${PHANTOMBUSTER_AGENT_ID:-}
+      LINKEDIN_SESSION_COOKIE: ${LINKEDIN_SESSION_COOKIE:-}
+
+volumes:
+  pgdata:

@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "Alumni LinkedIn Profile Searcher",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:8080" }],
+  "item": [
+    {
+      "name": "Search alumni",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/alumni/search",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"university\": \"IIT Bombay\",\n  \"designation\": \"Software Engineer\",\n  \"passoutYear\": 2020\n}"
+        }
+      }
+    },
+    {
+      "name": "Search alumni (no year)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/alumni/search",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"university\": \"IIT Delhi\",\n  \"designation\": \"Data Scientist\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Search alumni (validation error)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/alumni/search",
+        "body": { "mode": "raw", "raw": "{\n  \"university\": \"\",\n  \"designation\": \"\"\n}" }
+      }
+    },
+    {
+      "name": "Get all saved alumni",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/alumni/all" }
+    }
+  ]
+}

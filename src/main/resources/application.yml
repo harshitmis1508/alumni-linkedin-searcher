@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: alumni-linkedin-searcher
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/alumni_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+phantombuster:
+  # true  -> uses MockAlumniDataProvider (no PhantomBuster account needed, great for demo)
+  # false -> calls the real PhantomBuster API
+  mock-enabled: ${PHANTOMBUSTER_MOCK_ENABLED:true}
+  base-url: ${PHANTOMBUSTER_BASE_URL:https://api.phantombuster.com/api/v2}
+  api-key: ${PHANTOMBUSTER_API_KEY:}
+  agent-id: ${PHANTOMBUSTER_AGENT_ID:}
+  session-cookie: ${LINKEDIN_SESSION_COOKIE:}
+  max-profiles: ${PHANTOMBUSTER_MAX_PROFILES:10}
+  poll-interval-ms: ${PHANTOMBUSTER_POLL_INTERVAL_MS:5000}
+  timeout-seconds: ${PHANTOMBUSTER_TIMEOUT_SECONDS:180}
